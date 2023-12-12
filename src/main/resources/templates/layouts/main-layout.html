@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Admin Dashboard</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/assets/images/favicon.ico}" />
+
+    <link rel="stylesheet" th:href="@{/assets/css/backend-plugin.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/backend.css}">
+
+    <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/jquery/latest/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/momentjs/latest/moment.min.js}"></script>
+    <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js}"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css}" />
+</head>
+<body>
+<!-- loader Start -->
+<div id="loading">
+    <div id="loading-center">
+    </div>
+</div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div class="iq-sidebar  sidebar-default  ">
+        <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
+            <a th:href="@{/}" class="header-logo">
+                <img th:src="@{/assets/images/logo.png}" class="img-fluid rounded-normal light-logo" alt="logo">
+                <img th:src="@{/assets/images/logo-dark.png}" class="img-fluid rounded-normal d-none sidebar-light-img"
+                     alt="logo">
+                <span>Datum</span>
+            </a>
+            <div class="side-menu-bt-sidebar-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-light wrapper-menu" width="30" fill="none"
+                     viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </div>
+        <div class="data-scrollbar" data-scroll="1">
+            <nav class="iq-sidebar-menu">
+                <ul id="iq-sidebar-toggle" class="side-menu">
+                    <li class="active sidebar-layout">
+                        <a th:href="@{/}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                                </svg>
+                            </i>
+                            <span class="ml-2">Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="px-3 pt-3 pb-2">
+                        <span class="text-uppercase small font-weight-bold">Branch</span>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/branch/list}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 01-1.161.886l-.143.048a1.107 1.107 0 00-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 01-1.652.928l-.679-.906a1.125 1.125 0 00-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 00-8.862 12.872M12.75 3.031a9 9 0 016.69 14.036m0 0l-.177-.529A2.25 2.25 0 0017.128 15H16.5l-.324-.324a1.453 1.453 0 00-2.328.377l-.036.073a1.586 1.586 0 01-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 01-5.276 3.67m0 0a9 9 0 01-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
+                                </svg>
+                            </i><span class="ml-2">List</span>
+                        </a>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/branch/add}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </i><span class="ml-2">Add</span>
+                        </a>
+                    </li>
+
+                    <li class="px-3 pt-3 pb-2">
+                        <span class="text-uppercase small font-weight-bold">User</span>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/user/list}" class="svg-icon">
+                            <i class="">
+                                <svg class="svg-icon" id="iq-user-1-1" xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </i><span class="ml-2">List</span>
+                        </a>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/user/add}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </i><span class="ml-2">Add</span>
+                        </a>
+                    </li>
+
+                    <li class="px-3 pt-3 pb-2">
+                        <span class="text-uppercase small font-weight-bold">Product</span>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/product/list}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                                </svg>
+                            </i><span class="ml-2">List</span>
+                        </a>
+                    </li>
+
+                    <li class=" sidebar-layout">
+                        <a th:href="@{/product/add}" class="svg-icon">
+                            <i class="">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </i><span class="ml-2">Add</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="pt-5 pb-5"></div>
+        </div>
+    </div>
+    <div class="iq-top-navbar">
+        <div class="iq-navbar-custom">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                <div class="side-menu-bt-sidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary wrapper-menu" width="30"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="text-secondary" width="30" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                            <li class="nav-item nav-icon search-content">
+                                <a href="#" class="search-toggle rounded" id="dropdownSearch" data-toggle="dropdown"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <svg class="svg-icon text-secondary" id="h-suns" height="25" width="25"
+                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </a>
+                                <div class="iq-search-bar iq-sub-dropdown dropdown-menu"
+                                     aria-labelledby="dropdownSearch">
+                                    <form action="#" class="searchbox p-2">
+                                        <div class="form-group mb-0 position-relative">
+                                            <input type="text" class="text search-input font-size-12"
+                                                   placeholder="type here to search...">
+                                            <a href="#" class="search-link">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="" width="20"
+                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          stroke-width="2"
+                                                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-icon dropdown">
+                                <a href="#" class="nav-item nav-icon dropdown-toggle pr-0 search-toggle"
+                                   id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <img src="../assets/images/user/1.jpg" class="img-fluid avatar-rounded"
+                                         alt="user">
+                                    <span class="mb-0 ml-2 user-name">Head Quarter</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                    <li class="dropdown-item d-flex svg-icon">
+                                        <svg class="svg-icon mr-0 text-secondary" id="h-01-p" width="20"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <a href="../app/user-profile.html">My Profile</a>
+                                    </li>
+                                    <li class="dropdown-item d-flex svg-icon">
+                                        <svg class="svg-icon mr-0 text-secondary" id="h-02-p" width="20"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                        </svg>
+                                        <a href="../app/user-profile-edit.html">Edit Profile</a>
+                                    </li>
+                                    <li class="dropdown-item d-flex svg-icon">
+                                        <svg class="svg-icon mr-0 text-secondary" id="h-03-p" width="20"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <a href="../app/user-account-setting.html">Account Settings</a>
+                                    </li>
+                                    <li class="dropdown-item d-flex svg-icon">
+                                        <svg class="svg-icon mr-0 text-secondary" id="h-04-p" width="20"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                        </svg>
+                                        <a href="../app/user-privacy-setting.html">Privacy Settings</a>
+                                    </li>
+                                    <li class="dropdown-item  d-flex svg-icon border-top">
+                                        <svg class="svg-icon mr-0 text-secondary" id="h-05-p" width="20"
+                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                        </svg>
+                                        <a href="../backend/auth-sign-in.html">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <article layout:fragment="content">
+
+    </article>
+</div>
+<!-- Wrapper End-->
+
+
+<footer class="iq-footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a th:href="@{/backend/privacy-policy.html}">Privacy Policy</a></li>
+                    <li class="list-inline-item"><a th:href="@{/backend/terms-of-service.html}">Terms of Use</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-6 text-right">
+                    <span class="mr-1">
+                        Copyright
+                        All Rights Reserved.
+                    </span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Backend Bundle JavaScript -->
+<script th:src="@{/assets/js/backend-bundle.min.js}"></script>
+<!-- Chart Custom JavaScript -->
+<script th:src="@{/assets/js/customizer.js}"></script>
+
+<script th:src="@{/assets/js/sidebar.js}"></script>
+
+<!-- Flextree Javascript-->
+<script th:src="@{/assets/js/flex-tree.min.js}"></script>
+<script th:src="@{/assets/js/tree.js}"></script>
+
+<!-- Table Treeview JavaScript -->
+<script th:src="@{/assets/js/table-treeview.js}"></script>
+
+<!-- SweetAlert JavaScript -->
+<script th:src="@{/assets/js/sweetalert.js}"></script>
+
+<!-- Vectoe Map JavaScript -->
+<script th:src="@{/assets/js/vector-map-custom.js}"></script>
+
+<!-- Chart Custom JavaScript -->
+<script th:src="@{/assets/js/chart-custom.js}"></script>
+<script th:src="@{/assets/js/charts/01.js}"></script>
+<script th:src="@{/assets/js/charts/02.js}"></script>
+
+<!-- slider JavaScript -->
+<script th:src="@{/assets/js/slider.js}"></script>
+
+<!-- Emoji picker -->
+<script th:src="@{/assets/vendor/emoji-picker-element/index.js}" type="module"></script>
+<!-- report -->
+<script th:src="@{/assets/js/daterangepicker.js}"></script>
+
+<!-- app JavaScript -->
+<script th:src="@{/assets/js/app.js}"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var start = moment().subtract(29, 'days');
+        var end = moment();
+        function cb(start, end) {
+            $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            getData(start.format('MMMM D, YYYY'), end.format('MMMM D, YYYY'), $('#branch-select').val())
+            // var token = $("meta[name='_csrf']").attr("content");
+            // var header = $("meta[name='_csrf_header']").attr("content");
+
+        }
+        $('#reportrange').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            }
+        }, cb);
+        cb(start, end);
+    });
+
+    $('#branch-select').on('change', function () {
+        let dateRangeString = $('#reportrange span').html();
+        let dateRangeArray = dateRangeString.split(" - ");
+        let startDateString = dateRangeArray[0];
+        let endDateString = dateRangeArray[1];
+        getData(startDateString, endDateString, $('#branch-select').val())
+    });
+
+    function getData(start, end, branch){
+        $.ajax({
+            type: 'POST',
+            url: '/',
+            data: { startDate: start, endDate: end, branch: branch },
+
+            success: function (data) {
+                // console.log(data)
+                $('#total-sales').html(data.totalAmount)
+                $('#product-sold').html(data.totalProduct)
+                $('#orders-sold').html(data.orderList.length)
+                $('#profit').html(data.profit)
+                showOrder(data.orderList);
+                showProduct(data.productList)
+            },
+            error: function () {
+            }
+        });
+    }
+    function showOrder(orderList) {
+        var tableBody = document.getElementById('table-order-report');
+        tableBody.innerHTML = ''
+        orderList.forEach( (order) => {
+            var newRow = document.createElement('tr');
+            var createdAtDate = new Date(order.createdAt);
+
+            var formattedDate = createdAtDate.toISOString().split('T')[0];
+            var totalQuantity = order.orderItems.reduce((acc, item) => acc + item.quantity, 0);
+
+            newRow.innerHTML = `
+                                        <td>${order.id}</td>
+                                        <td>${order.nameOfCustomer}</td>
+                                        <td>${order.totalAmount}</td>
+                                        <td>${order.cash}</td>
+                                        <td>${order.cash - order.totalAmount}</td>
+                                        <td>${formattedDate}</td>
+                                        <td>${totalQuantity}</td>
+                                        `;
+            tableBody.appendChild(newRow);
+        })
+    }
+
+    function showProduct(productList){
+        var tableBody = document.getElementById('table-product-report');
+        tableBody.innerHTML = ''
+        productList.forEach( (product) => {
+            var newRow = document.createElement('tr');
+            var readonly = '';
+            if($('#branch-select').val() === 'All'){
+                readonly = 'readonly'
+            }
+            newRow.innerHTML = `
+                                        <td><div class="media">
+                                            <img src="data:image/png;base64,${product.image}"
+                                                 class="align-self-center mr-3 avatar-40 img-fluid rounded"
+                                                 alt="#">
+                                            <div class="media-body">
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <p class="mb-0 font-weight"><strong>Name:</strong> ${product.name}<br/><strong>Code:</strong> ${product.barCode}</p>
+                                                </div>
+                                            </div>
+                                        </div></td>
+                                        <td>${product.brand.name}</td>
+                                        <td>${product.importPrice}</td>
+                                        <td>${product.retailPrice}</td>
+                                        <input ${readonly} value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                        `;
+            var quantityInput = newRow.querySelector('.quantityOfProduct');
+            quantityInput.addEventListener('change', function() {
+                const productId = product.id;
+                const quantity = this.value;
+                // console.log('Product ID:', productId);
+                // console.log('Quantity:', quantity);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/product/update-quantity',
+                    data: { productId: productId, quantity: quantity, branch:$('#branch-select').val() },
+                    success: function (data) {
+                        // console.log(data)
+                    },
+                    error: function () {
+                    }
+                });
+            });
+            tableBody.appendChild(newRow);
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.roles-select').change(function() {
+            var selectedRole = $(this).val();
+            var userId = $(this).data('user-id');
+            // console.log('User ID:', userId);
+            // console.log('Selected Role:', selectedRole);
+            $.ajax({
+                type: 'POST',
+                url: '/user/change-role',
+                data: { userId: userId, role: selectedRole },
+                success: function (data) {
+                    // console.log(data.user)
+                },
+                error: function () {
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

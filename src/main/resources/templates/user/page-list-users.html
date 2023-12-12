@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<article layout:fragment="content">
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex flex-wrap justify-content-between align-items-center">
+                            <div class="header-title">
+                                <h4 class="card-title">Bootstrap Datatables</h4>
+                            </div>
+<!--                            <div class="header-action">-->
+<!--                                <select class="form-control" id="branch-select" required="">-->
+<!--                                    <th:block th:each="branch:${branchList}">-->
+<!--                                        <option th:text="${branch.getName()}"></option>-->
+<!--                                    </th:block>-->
+<!--                                </select>-->
+<!--                            </div>-->
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable-1" class="table data-table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Gender</th>
+                                        <th>Username</th>
+                                        <th>Branch</th>
+                                        <th>Role</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user:${userList}">
+                                        <td th:text="${user.getId()}"></td>
+                                        <td th:text="${user.getFullName()}"></td>
+                                        <td th:text="${user.getEmail()}"></td>
+                                        <td th:text="${user.getGender()}"></td>
+                                        <td th:text="${user.getUsername()}"></td>
+                                        <td th:text="${user.getBranch().getName()}"></td>
+                                        <td >
+                                            <select class="form-control roles-select" th:data-user-id="${user.getId()}" required="">
+                                                <option th:selected="${user.getRoleOfUser() == 'ROLE_ADMIN'}" th:text="Admin"></option>
+                                                <option th:selected="${user.getRoleOfUser() == 'ROLE_USER'}" th:text="User"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+</html>

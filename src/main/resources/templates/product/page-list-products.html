@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<article layout:fragment="content">
+      <div class="content-page">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="card-header d-flex justify-content-between">
+                                    <div class="header-title">
+                                        <h4 class="card-title">Products</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="datatable-1" class="table data-table table-striped table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Brand</th>
+                                            <th>Import Price</th>
+                                            <th>Retail Price</th>
+                                            <th>Quantity</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="">
+                                        <tr th:each="product:${listProducts}">
+                                            <td>
+                                                <div class="media">
+                                                    <img th:src="'data:image/jpeg;base64,' + ${product.getEncodedImage()}"
+                                                         class="align-self-center mr-3 avatar-40 img-fluid rounded"
+                                                         alt="#">
+                                                    <div class="media-body">
+                                                        <div
+                                                                class="d-flex flex-wrap justify-content-start align-items-center">
+                                                            <p class="mb-0 font-weight" th:utext="${'Name: '+product.getName() + '&lt;br/&gt;' +'Barcode: '+ product.getBarCode()}"></p>                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td th:text="${product.getName()}"></td>
+                                            <td th:text="${product.getImportPrice()}"></td>
+                                            <td th:text="${product.getRetailPrice()}"></td>
+                                            <td th:text="${product.getQuantityOfBranch()}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     </div>
+</article>
+</body>
+</html>

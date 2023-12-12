@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<article layout:fragment="content">
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 mb-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <h4 class="font-weight-bold col-lg-4">Dashboard</h4>
+
+                        <div class="col-lg-4">
+                            <div class="form-control" id="reportrange" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width:
+                                100%">
+                                <i class="fa fa-calendar"></i>&nbsp;
+                                <span></span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <select class="form-control" id="branch-select" required="">
+                                <option th:checked >All</option>
+                                <th:block th:each="branch:${branchList}">
+                                    <option th:text="${branch.getName()}"></option>
+                                </th:block>
+                            </select>
+                        </div>
+
+
+                        <!-- <div class="form-group mb-0 vanila-daterangepicker d-flex flex-row">
+                            <div class="date-icon-set">
+                                <input type="text" name="start" class="form-control" placeholder="From Date">
+                                <span class="search-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <span class="flex-grow-0">
+                                <span class="btn">To</span>
+                            </span>
+                            <div class="date-icon-set">
+                                <input type="text" name="end" class="form-control" placeholder="To Date">
+                                <span class="search-link">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="" width="20" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="media">
+                                            <img th:src="@{/assets/images/report/total-sales.png}"
+                                                 class="align-self-center mr-3 avatar-70 img-fluid rounded" alt="#">
+                                            <div class="media-body">
+                                                <p class="mb-2 text-secondary">Total Revenue</p>
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <h5 class="mb-0 font-weight-bold" id="total-sales">$95,595</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="media">
+                                            <img th:src="@{/assets/images/report/order-sales.png}"
+                                                 class="align-self-center mr-3 avatar-70 img-fluid rounded" alt="#">
+                                            <div class="media-body">
+                                                <p class="mb-2 text-secondary">Total Invoice</p>
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <h5 class="mb-0 font-weight-bold" id="orders-sold"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="media">
+                                            <img th:src="@{/assets/images/report/product-sales.png}"
+                                                 class="align-self-center mr-3 avatar-70 img-fluid rounded" alt="#">
+                                            <div class="media-body">
+                                                <p class="mb-2 text-secondary">Product Sold</p>
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <h5 class="mb-0 font-weight-bold" id="product-sold"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="media">
+                                            <img th:src="@{/assets/images/report/profit.png}"
+                                                 class="align-self-center mr-3 avatar-70 img-fluid rounded" alt="#">
+                                            <div class="media-body">
+                                                <p class="mb-2 text-secondary">Product Sold</p>
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <h5 class="mb-0 font-weight-bold" id="profit"></h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-12">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Product</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="datatable" class="table data-table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Brand</th>
+                                    <th>Import Price</th>
+                                    <th>Retail Price</th>
+                                    <th>Quantity</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table-product-report" class="justify-content-start align-items-center">
+<!--                                <tr>-->
+<!--                                    <td>-->
+<!--                                        <div class="media">-->
+<!--                                            <img th:src="@{/assets/images/report/product-sales.png}"-->
+<!--                                                 class="align-self-center mr-3 avatar-40 img-fluid rounded"-->
+<!--                                                 alt="#">-->
+<!--                                            <div class="media-body">-->
+<!--                                                <div-->
+<!--                                                        class="d-flex flex-wrap justify-content-start align-items-center">-->
+<!--                                                    <p class="mb-0 font-weight">System Architect<br />12</p>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td>System Architect</td>-->
+<!--                                    <td>Edinburgh</td>-->
+<!--                                    <td>61</td>-->
+<!--                                    <td>2011/04/25</td>-->
+<!--                                </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card col-lg-12">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Invoice</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="" class="table data-table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Total Amount</th>
+                                    <th>Cash</th>
+                                    <th>Change</th>
+                                    <th>Date Of Purchase</th>
+                                    <th>Product Quantity</th>
+                                </tr>
+                                </thead>
+                                <tbody id="table-order-report">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+</html>
