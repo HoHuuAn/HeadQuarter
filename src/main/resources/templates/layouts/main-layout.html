@@ -12,7 +12,8 @@
 
     <link rel="stylesheet" th:href="@{/assets/css/backend-plugin.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/backend.css}">
-
+    <link rel="stylesheet" th:href="@{/assets/css/toast.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css}"/>
     <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/jquery/latest/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/momentjs/latest/moment.min.js}"></script>
     <script type="text/javascript" th:src="@{https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js}"></script>
@@ -26,8 +27,10 @@
 </div>
 <!-- loader END -->
 
+
 <!-- Wrapper Start -->
 <div class="wrapper">
+    <ul class="notifications"></ul>
     <div class="iq-sidebar  sidebar-default  ">
         <div class="iq-sidebar-logo d-flex align-items-end justify-content-between">
             <a th:href="@{/}" class="header-logo">
@@ -254,6 +257,7 @@
             </nav>
         </div>
     </div>
+
     <article layout:fragment="content">
 
     </article>
@@ -312,7 +316,8 @@
 <script th:src="@{/assets/vendor/emoji-picker-element/index.js}" type="module"></script>
 <!-- report -->
 <script th:src="@{/assets/js/daterangepicker.js}"></script>
-
+<!-- app JavaScript -->
+<script th:src="@{/assets/js/toast.js}"></script>
 <!-- app JavaScript -->
 <script th:src="@{/assets/js/app.js}"></script>
 
@@ -416,7 +421,9 @@
                                         <td>${product.brand.name}</td>
                                         <td>${product.importPrice}</td>
                                         <td>${product.retailPrice}</td>
-                                        <input ${readonly} value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                        <td>
+                                            <input ${readonly} value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control d-flex align-items-center" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                        </td>
                                         `;
             var quantityInput = newRow.querySelector('.quantityOfProduct');
             quantityInput.addEventListener('change', function() {
@@ -424,13 +431,12 @@
                 const quantity = this.value;
                 // console.log('Product ID:', productId);
                 // console.log('Quantity:', quantity);
-
                 $.ajax({
                     type: 'POST',
                     url: '/product/update-quantity',
                     data: { productId: productId, quantity: quantity, branch:$('#branch-select').val() },
                     success: function (data) {
-                        // console.log(data)
+                        createToast("success", product.name + "was updated to " + quantity + " items")
                     },
                     error: function () {
                     }
