@@ -23,5 +23,4 @@ public class BranchDTO {
 
     @JsonProperty("createdAt")
     private Date createdAt;
-
 }

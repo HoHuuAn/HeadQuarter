@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<article layout:fragment="content">
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-8 col-lg-8">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="card-header d-flex justify-content-between">
+                                <div class="header-title">
+                                    <h4 class="card-title">List Of Branch</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="datatable-1" class="table data-table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+<!--                                        <th>ID</th>-->
+                                        <th>Name</th>
+                                        <th>Address</th>
+                                        <th>Create At</th>
+                                        <th class="text-xl-center">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="table-branch">
+                                    <tr th:each="branch:${listBranch}">
+<!--                                        <td th:text="${branch.getId()}"></td>-->
+                                        <td th:id="${branch.getId() + '-name'}" th:text="${branch.getName()}"></td>
+                                        <td th:id="${branch.getId() + '-address'}" th:text="${branch.getAddress()}"></td>
+                                        <td th:text="${branch.getCreatedAt()}"></td>
+                                        <td class="text-xl-center">
+                                            <button type="button" class="btn mt-2 mr-2" data-toggle="modal" data-target="#modal-update-branch" th:data-id="${branch.getId()}">
+                                                <i class="fa-regular fa-pen-to-square" style="color: #b0b300;"></i>
+                                            </button>
+                                            <div id="modal-update-branch" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                                                 aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Change Information of Branch</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group row">
+                                                                <label class="control-label col-sm-3 align-self-center" for="nameOfBranchUpdated">Name of Branch:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" id="nameOfBranchUpdated" th:value="${branch.getName()}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="control-label col-sm-3 align-self-center" for="addressOfBranchUpdated">Name of Branch:</label>
+                                                                <div class="col-sm-9">
+                                                                    <input type="text" class="form-control" id="addressOfBranchUpdated" th:value="${branch.getAddress()}" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-primary btn-update-branch" th:data-id="${branch.getId()}">Save changes</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-lg-4">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Add a New Branch</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="branchForm">
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="nameOfBranch">Name of Branch</label>
+                                        <input type="text" class="form-control" id="nameOfBranch" required>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <label for="addressOfBranch">Address</label>
+                                        <input type="text" class="form-control" id="addressOfBranch" required>
+                                    </div>
+<!--                                    <div class="col-md-6 mb-3">-->
+<!--                                        <label for="validationDefaultUsername">Username</label>-->
+<!--                                        <div class="input-group">-->
+<!--                                            <div class="input-group-prepend">-->
+<!--                                                <span class="input-group-text" id="inputGroupPrepend2">@</span>-->
+<!--                                            </div>-->
+<!--                                            <input type="text" class="form-control" id="validationDefaultUsername"  aria-describedby="inputGroupPrepend2" required>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 mb-3">-->
+<!--                                        <label for="validationDefault03">City</label>-->
+<!--                                        <input type="text" class="form-control" id="validationDefault03" required>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 mb-3">-->
+<!--                                        <label for="validationDefault04">State</label>-->
+<!--                                        <select class="form-control" id="validationDefault04" required>-->
+<!--                                            <option selected disabled value="">Choose...</option>-->
+<!--                                            <option>...</option>-->
+<!--                                        </select>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-6 mb-3">-->
+<!--                                        <label for="validationDefault05">Zip</label>-->
+<!--                                        <input type="text" class="form-control" id="validationDefault05" required>-->
+<!--                                    </div>-->
+                                </div>
+                                <div class="form-group mb-0">
+                                    <button class="btn btn-primary" type="submit">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+</html>

@@ -12,5 +12,7 @@ public interface BranchService {
 
     Branch findByName(String name);
 
-    public List<BranchDTO> listAllDTO();
+    List<BranchDTO> listAllDTO();
+
+    Branch findByid(Long id);
 }
