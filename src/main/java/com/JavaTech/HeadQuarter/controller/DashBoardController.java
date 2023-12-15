@@ -75,7 +75,8 @@ public class DashBoardController {
                     .map(product -> {
                         ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
                         QuantityProduct quantityProduct = findByProduct(product, branchService.findByName(branch));
-                        productDTO.setQuantityOfBranch(quantityProduct.getQuantity());
+                        int quantity = (quantityProduct != null) ? quantityProduct.getQuantity() : 0;
+                        productDTO.setQuantityOfBranch(quantity);
                         return productDTO;
                     })
                     .collect(Collectors.toList());

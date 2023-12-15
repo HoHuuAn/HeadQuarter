@@ -359,10 +359,10 @@
 
             success: function (data) {
                 // console.log(data)
-                $('#total-sales').html(data.totalAmount)
+                $('#total-sales').html('$' + data.totalAmount)
                 $('#product-sold').html(data.totalProduct)
                 $('#orders-sold').html(data.orderList.length)
-                $('#profit').html(data.profit)
+                $('#profit').html('$' + data.profit)
                 showOrder(data.orderList);
                 showProduct(data.productList)
             },
@@ -425,14 +425,12 @@
             quantityInput.addEventListener('change', function() {
                 const productId = product.id;
                 const quantity = this.value;
-                // console.log('Product ID:', productId);
-                // console.log('Quantity:', quantity);
                 $.ajax({
                     type: 'POST',
                     url: '/product/update-quantity',
                     data: { productId: productId, quantity: quantity, branch:$('#branch-select').val() },
                     success: function (data) {
-                        createToast("success", product.name + "was updated to " + quantity + " items")
+                        createToast("success", product.name + " was updated to " + quantity + " items")
                     },
                     error: function () {
                     }
@@ -443,14 +441,11 @@
         });
     }
 
-
     //user
     $(document).ready(function() {
         $('.roles-select').change(function() {
             var selectedRole = $(this).val();
             var userId = $(this).data('user-id');
-            // console.log('User ID:', userId);
-            // console.log('Selected Role:', selectedRole);
             $.ajax({
                 type: 'POST',
                 url: '/user/change-role',

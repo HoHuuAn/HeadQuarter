@@ -40,8 +40,16 @@ public class ProductController {
                                             @RequestParam("quantity") int quantity,
                                             @RequestParam("branch") String branch){
         QuantityProduct quantityProduct = quantityProductService.findByBranchAndProduct(branchService.findByName(branch), productService.findById(productId));
-        quantityProduct.setQuantity(quantity);
-        quantityProductService.saveOrUpdate(quantityProduct);
+        if( quantityProduct == null ){
+            quantityProductService.saveOrUpdate(QuantityProduct.builder()
+                            .quantity(quantity)
+                            .branch(branchService.findByName(branch))
+                            .product(productService.findById(productId))
+                    .build());
+        } else {
+            quantityProduct.setQuantity(quantity);
+            quantityProductService.saveOrUpdate(quantityProduct);
+        }
         Map<String, Object> response = new HashMap<>();
         return ResponseEntity.ok(response);
     }

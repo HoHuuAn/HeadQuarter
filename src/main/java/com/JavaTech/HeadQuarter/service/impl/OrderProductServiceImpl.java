@@ -6,8 +6,11 @@ import com.JavaTech.HeadQuarter.service.OrderProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderProductServiceImpl implements OrderProductService {
@@ -52,4 +55,23 @@ public class OrderProductServiceImpl implements OrderProductService {
         }
         return totalProfit;
     }
+
+//    @Override
+//    public Map<String, Long> getSumTotalAmountByMonth(Branch branch) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.add(Calendar.MONTH, -11);
+//        Date startDate = calendar.getTime();
+//        Date endDate = new Date();
+//
+//        List<OrderProduct> orderProducts = orderProductRepository.findByCreatedAtBetweenAndBranch(startDate, endDate, branch);
+//
+//        return orderProducts.stream()
+//                .collect(Collectors.groupingBy(orderProduct -> {
+//                    Calendar orderCalendar = Calendar.getInstance();
+//                    orderCalendar.setTime(orderProduct.getCreatedAt());
+//                    int year = orderCalendar.get(Calendar.YEAR);
+//                    int month = orderCalendar.get(Calendar.MONTH);
+//                    return String.format("%04d-%02d", year, month);
+//                }, Collectors.summingLong(OrderProduct::getTotalAmount)));
+//    }
 }
