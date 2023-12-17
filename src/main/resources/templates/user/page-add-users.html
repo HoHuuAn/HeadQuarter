@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main-layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<article layout:fragment="content">
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Add User</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/user/add}" data-toggle="validator" method="POST" enctype="multipart/form-data" >
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullName">Full name: </label>
+                                    <input type="text" class="form-control" id="fullName" name="fullName" required placeholder="Enter name">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone">Phone: </label>
+                                    <input type="text" class="form-control" id="phone" name="phone" required placeholder="Enter phone">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email">Email: </label>
+                                    <input type="text" class="form-control" id="email" name="email" required oninput="parseEmail()" placeholder="Enter email">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="username">User name: </label>
+                                    <input type="text" class="form-control" id="username" name="username" required onkeyup="usernameToPassword(this.value);" placeholder="Enter username">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="password">Password: </label>
+                                    <input type="password" class="form-control" id="password" name="password" required placeholder="Enter password">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="gender-select">Gender: </label>
+                                    <select class="form-control" id="gender-select" name="gender" required>
+                                        <option selected disabled value="">Choose gender...</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="status-select">Status: </label>
+                                    <select class="form-control" id="status-select" required name="status">
+                                        <option selected disabled value="">Choose role...</option>
+                                        <option>Admin</option>
+                                        <option>User</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="branch-select">Branch: </label>
+                                    <select class="form-control" id="branch-select" required="" name="branch">
+                                        <option selected disabled value="">Choose branch for user...</option>
+                                        <th:block th:each="branch:${branchList}">
+                                            <option th:text="${branch.getName()}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                                <div class=" custom-file mb-3">
+                                    <input type="file" accept="image/png, image/jpeg, image/jpg" class="custom-file-input" id="avatar" name="avatar" required>
+                                    <label class="custom-file-label" for="avatar">Choose avatar...</label>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary" type="submit">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+</body>
+</html>

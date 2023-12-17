@@ -307,6 +307,24 @@
 <!-- app JavaScript -->
 <script th:src="@{/assets/js/app.js}"></script>
 
+<script>
+    function usernameToPassword(str) {
+        document.getElementsByName("password")[0].value=str.replace(/ /g, "-");
+    }
+    function parseEmail() {
+        var emailInput = document.getElementById("email");
+        var usernameInput = document.getElementById("username");
+        var passwordInput = document.getElementById("password");
+
+        var emailValue = emailInput.value;
+        var atIndex = emailValue.indexOf('@');
+        var username = atIndex !== -1 ? emailValue.substring(0, atIndex) : emailValue;
+
+        usernameInput.value = username;
+        passwordInput.value = username;
+    }
+</script>
+
 <script type="text/javascript">
     $(function () {
         var start = moment().subtract(29, 'days');
@@ -316,7 +334,6 @@
             getData(start.format('MMMM D, YYYY'), end.format('MMMM D, YYYY'), $('#branch-select').val())
             // var token = $("meta[name='_csrf']").attr("content");
             // var header = $("meta[name='_csrf_header']").attr("content");
-
         }
         $('#reportrange').daterangepicker({
             startDate: start,

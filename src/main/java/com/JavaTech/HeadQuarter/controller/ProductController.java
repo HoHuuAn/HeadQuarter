@@ -45,7 +45,7 @@ public class ProductController {
                             .quantity(quantity)
                             .branch(branchService.findByName(branch))
                             .product(productService.findById(productId))
-                    .build());
+                            .build());
         } else {
             quantityProduct.setQuantity(quantity);
             quantityProductService.saveOrUpdate(quantityProduct);
