@@ -7,7 +7,67 @@
     <div class="content-page">
         <div class="container-fluid">
             <div class="row">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="header-title">
+                            <h4 class="card-title">Add Product</h4>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/product/add}" data-toggle="validator" method="POST" enctype="multipart/form-data" >
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="fullName">Name: </label>
+                                    <input type="text" class="form-control" id="fullName" name="name" required placeholder="Enter name">
+                                </div>
 
+                                <div class="col-md-6 mb-3">
+                                    <label for="barCode">BarCode: </label>
+                                    <input type="text" class="form-control" id="barCode" name="barCode" required placeholder="Enter BarCode">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="importPrice">Import Price: </label>
+                                    <input type="text" class="form-control" id="importPrice" name="importPrice" required placeholder="Enter Import Price">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="retailPrice">Retail Price: </label>
+                                    <input type="text" class="form-control" id="retailPrice" name="retailPrice" required placeholder="Enter Cost">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="quantity">Quantity: </label>
+                                    <input type="text" class="form-control" id="quantity" name="quantity" required placeholder="Enter Quantity">
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="brand-select">Brand: </label>
+                                    <select class="form-control" id="brand-select" name="brand" required>
+                                        <option selected disabled value="">Choose Brand...</option>
+                                        <th:block th:each="brand:${listBrand}">
+                                            <option th:text="${brand.getName()}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+
+                                <div class=" custom-file mb-3">
+                                    <input type="file" accept="image/png, image/jpeg, image/jpg" name="image" class="custom-file-input" id="image" required>
+                                    <label class="custom-file-label" for="image">Choose image...</label>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="description">Description: </label>
+                                    <textarea id="description" class="form-control" rows="4" required name="description"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="form-group mb-0">
+                                <button class="btn btn-primary" type="submit">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
