@@ -25,6 +25,7 @@
                                             <th>Brand</th>
                                             <th>Import Price</th>
                                             <th>Retail Price</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody id="">
@@ -41,9 +42,53 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td th:text="${product.getName()}"></td>
-                                            <td th:text="${product.getImportPrice()}"></td>
-                                            <td th:text="${product.getRetailPrice()}"></td>
+                                            <td th:text="${product.getBrand().getName()}"></td>
+                                            <td th:id="${product.getId() + '-importPrice'}" th:text="${product.getImportPrice()}"></td>
+                                            <td th:id="${product.getId() + '-retailPrice'}" th:text="${product.getRetailPrice()}"></td>
+                                            <td class="text-xl-center">
+                                                <button type="button" class="btn mt-2 mr-2" data-toggle="modal" data-target="#modal-update-product" th:data-id="${product.getId()}">
+                                                    <i class="fa-regular fa-pen-to-square" style="color: #b0b300;"></i>
+                                                </button>
+                                                <div id="modal-update-product" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+                                                     aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Change Information of Product</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group row">
+                                                                    <label class="control-label col-sm-3 align-self-center" for="nameOfProductUpdated">Name of Product:</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input disabled type="text" class="form-control" id="nameOfProductUpdated" th:value="${product.getName()}" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="control-label col-sm-3 align-self-center" for="importPriceOfProductUpdated">Import Price:</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" id="importPriceOfProductUpdated" th:value="${product.getImportPrice()}" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="control-label col-sm-3 align-self-center" for="retailPriceOfProductUpdated">Import Price:</label>
+                                                                    <div class="col-sm-9">
+                                                                        <input type="text" class="form-control" id="retailPriceOfProductUpdated" th:value="${product.getRetailPrice()}" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                <button type="button" class="btn btn-primary btn-update-product" th:data-id="${product.getId()}">Save changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                         </tbody>
                                     </table>

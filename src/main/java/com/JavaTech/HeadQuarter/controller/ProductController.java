@@ -1,6 +1,8 @@
 package com.JavaTech.HeadQuarter.controller;
 
 
+import com.JavaTech.HeadQuarter.dto.BranchDTO;
+import com.JavaTech.HeadQuarter.dto.ProductDTO;
 import com.JavaTech.HeadQuarter.model.Branch;
 import com.JavaTech.HeadQuarter.model.Brand;
 import com.JavaTech.HeadQuarter.model.Product;
@@ -11,14 +13,12 @@ import com.JavaTech.HeadQuarter.service.ProductService;
 import com.JavaTech.HeadQuarter.service.QuantityProductService;
 import com.JavaTech.HeadQuarter.utils.BarcodeUtil;
 import com.JavaTech.HeadQuarter.utils.ImageUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,6 +42,9 @@ public class ProductController {
 
     @Autowired
     private BrandService brandService;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping(value = "/list")
     public String showAll(Model model){
@@ -112,5 +115,20 @@ public class ProductController {
             quantityProductService.saveOrUpdate(quantityProduct);
         }
         return "redirect:/product/list";
+    }
+
+    @PostMapping(value = "/edit/{id}")
+    public ResponseEntity<?> editBranch(@PathVariable("id") String id,
+                                        @RequestParam("name") String productName,
+                                        @RequestParam("importPrice") int importPrice,
+                                        @RequestParam("retailPrice") int retailPrice){
+        Product product = productService.findById(id);
+        product.setName(productName);
+        product.setImportPrice(importPrice);
+        product.setRetailPrice(retailPrice);
+        product = productService.saveOrUpdate(product);
+        Map<String, Object> response = new HashMap<>();
+        response.put("updatedProduct", modelMapper.map(product, ProductDTO.class));
+        return ResponseEntity.ok(response);
     }
 }

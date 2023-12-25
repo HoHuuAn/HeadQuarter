@@ -337,10 +337,7 @@
 </script>
 
 
-<!--dash board-->
 <script type="text/javascript">
-
-
     //==================== user ====================
     $(document).ready(function() {
         $('.roles-select').change(function() {
@@ -429,6 +426,48 @@
                 },
                 error: function(xhr, status, error) {
                     console.error('An error occurred while updating the branch:', error);
+                }
+            });
+        });
+    });
+
+    $(document).ready(function() {
+        $('#modal-update-product').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var productId = button.data('id');
+            var productName = $('#nameOfProductUpdated').val()
+            var importPrice = $('#importPriceOfProductUpdated').val();
+            var retailPrice = $('#retailPriceOfProductUpdated').val();
+
+            $(this).find('#nameOfProductUpdated').val(productName);
+            $(this).find('#importPriceOfProductUpdated').val(importPrice);
+            $(this).find('#retailPriceOfProductUpdated').val(retailPrice);
+            $(this).find('.btn-update-product').data('id', productId);
+        });
+
+        $('.btn-update-product').click(function() {
+            var productId = $(this).data('id');
+            var productName = $('#nameOfProductUpdated').val();
+            var importPrice = $('#importPriceOfProductUpdated').val();
+            var retailPrice = $('#retailPriceOfProductUpdated').val();
+
+            console.log(productId);
+            console.log(productName);
+            console.log(importPrice);
+            console.log(retailPrice);
+
+            $('#modal-update-product').modal('hide');
+            $.ajax({
+                type: 'POST',
+                url: '/product/edit/' + productId,
+                data: {name: productName, importPrice: importPrice, retailPrice: retailPrice},
+                success: function(response) {
+                    $('#' + productId + '-importPrice').text(response.updatedProduct.importPrice);
+                    $('#' + productId + '-retailPrice').text(response.updatedProduct.retailPrice);
+                    createToast("success", productName + " was updated successfully")
+                },
+                error: function(xhr, status, error) {
+                    console.error('An error occurred while updating the product:', error);
                 }
             });
         });
