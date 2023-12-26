@@ -16,9 +16,22 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-4 "></div>
+                                <div class="col-lg-4 "></div>
+                                <div class="col-lg-4 ">
+                                    <select class="form-control" id="branch-select-product" required="">
+                                        <option selected disabled value="">Choose Branch...</option>
+                                        <option>All</option>
+                                        <th:block th:each="branch:${branchList}">
+                                            <option th:text="${branch.getName()}"></option>
+                                        </th:block>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="datatable-1" class="table data-table table-striped table-bordered">
+                                    <table id="datatable-1" class="table data-table table-striped table-bordered table-product">
                                         <thead>
                                         <tr>
                                             <th>Product</th>
@@ -28,7 +41,7 @@
                                             <th>Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody id="">
+                                        <tbody id="table-product-list">
                                         <tr th:each="product:${listProducts}">
                                             <td>
                                                 <div class="media">
@@ -46,7 +59,7 @@
                                             <td th:id="${product.getId() + '-importPrice'}" th:text="${product.getImportPrice()}"></td>
                                             <td th:id="${product.getId() + '-retailPrice'}" th:text="${product.getRetailPrice()}"></td>
                                             <td class="text-xl-center">
-                                                <button type="button" class="btn mt-2 mr-2" data-toggle="modal" data-target="#modal-update-product" th:data-id="${product.getId()}">
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#modal-update-product" th:data-id="${product.getId()}">
                                                     <i class="fa-regular fa-pen-to-square" style="color: #b0b300;"></i>
                                                 </button>
                                                 <div id="modal-update-product" class=" modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
@@ -88,6 +101,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <button type="button" class="btn" data-toggle="modal" data-target="#modal-delete-product" th:data-id="${product.getId()}">
+                                                        <i class='fa-regular fa-trash-can' style='color: red'></i>
+                                                </button>
                                             </td>
                                         </tr>
                                         </tbody>

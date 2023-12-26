@@ -135,10 +135,10 @@ function showProduct(productList){
     tableBody.innerHTML = ''
     productList.forEach( (product) => {
         var newRow = document.createElement('tr');
-        var readonly = '';
-        if($('#branch-select').val() === 'All'){
-            readonly = 'readonly'
-        }
+        // var readonly = '';
+        // if($('#branch-select').val() === 'All'){
+        //     readonly = 'readonly'
+        // }
         newRow.innerHTML = `
                                         <td><div class="media">
                                             <img src="data:image/png;base64,${product.image}"
@@ -154,6 +154,87 @@ function showProduct(productList){
                                         <td>${product.brand.name}</td>
                                         <td>${product.importPrice}</td>
                                         <td>${product.retailPrice}</td>
+                                        <td> 
+                                            <input readonly value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control d-flex align-items-center" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                        </td>
+                                        `;
+        var quantityInput = newRow.querySelector('.quantityOfProduct');
+        quantityInput.addEventListener('change', function() {
+            const productId = product.id;
+            const quantity = this.value;
+            $.ajax({
+                type: 'POST',
+                url: '/product/update-quantity',
+                data: { productId: productId, quantity: quantity, branch:$('#branch-select').val() },
+                success: function (data) {
+                    createToast("success", product.name + " was updated to " + quantity + " items")
+                },
+                error: function () {
+                }
+            });
+        });
+        tableBody.appendChild(newRow);
+    });
+}
+
+
+
+$('#branch-select-product').on('change', function () {
+    console.log($('#branch-select-product').val())
+    $.ajax({
+        type: 'POST',
+        url: '/product/get-by-branch',
+        data: { branch: $('#branch-select-product').val() },
+        success: function (data) {
+            console.log(data.productList)
+            showProductList(data.productList);
+        },
+        error: function () {
+        }
+    });
+});
+
+function showProductList(productList){
+    var table = document.getElementById('datatable-1');
+
+    var rows = table.getElementsByTagName('tr');
+
+    var headerRow = rows[0];
+    while (headerRow.getElementsByTagName('th').length > 0) {
+        headerRow.removeChild(headerRow.getElementsByTagName('th')[0]);
+    }
+
+    var headers = ['Product', 'Brand', 'Import Price', 'Retail Price', 'Quantity'];
+    for (var i = 0; i < headers.length; i++) {
+        var th = document.createElement('th');
+        th.innerHTML = headers[i];
+        headerRow.appendChild(th);
+    }
+
+    tableBody = document.getElementById('table-product-list');
+    tableBody.innerHTML = '';
+
+    productList.forEach( (product) => {
+        var newRow = document.createElement('tr');
+        var readonly = '';
+        if($('#branch-select-product').val() === 'All'){
+            readonly = 'readonly'
+        }
+        newRow.innerHTML = `
+                                        <td><div class="media">
+                                            <img src="data:image/png;base64,${product.image}"
+                                                 class="align-self-center mr-3 avatar-40 img-fluid rounded"
+                                                 alt="#">
+                                            <div class="media-body">
+                                                <div
+                                                        class="d-flex flex-wrap justify-content-start align-items-center">
+                                                    <p class="mb-0 font-weight"><strong>Name:</strong> ${product.name}<br/><strong>Code:</strong> ${product.barCode}</p>
+                                                </div>
+                                            </div>
+                                        </div></td>
+                                        <td>${product.brand.name}</td>
+                                        <td id="${product.id + '-importPrice'}">${product.importPrice}</td>
+                                        <td id="${product.id + '-retailPrice'}">${product.retailPrice}</td>
                                         <td>
                                             <input ${readonly} value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control d-flex align-items-center" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                                         </td>
@@ -165,7 +246,7 @@ function showProduct(productList){
             $.ajax({
                 type: 'POST',
                 url: '/product/update-quantity',
-                data: { productId: productId, quantity: quantity, branch:$('#branch-select').val() },
+                data: { productId: productId, quantity: quantity, branch:$('#branch-select-product').val() },
                 success: function (data) {
                     createToast("success", product.name + " was updated to " + quantity + " items")
                 },

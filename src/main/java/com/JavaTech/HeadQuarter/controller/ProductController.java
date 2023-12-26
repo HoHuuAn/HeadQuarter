@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/product")
@@ -48,6 +49,7 @@ public class ProductController {
 
     @GetMapping(value = "/list")
     public String showAll(Model model){
+        model.addAttribute("branchList", branchService.listAll());
         model.addAttribute("listProducts", productService.listDTO(productService.listAll()));
         return "/product/page-list-products";
     }
@@ -81,7 +83,6 @@ public class ProductController {
     public String addProduct(@RequestParam(name = "name") String name,
                              @RequestParam(name = "importPrice") int importPrice,
                              @RequestParam(name = "retailPrice") int retailPrice,
-                             @RequestParam(name = "quantity") int quantity,
                              @RequestParam(name = "barCode") String barCode,
                              @RequestParam(name = "image") MultipartFile image,
                              @RequestParam(name = "brand") String brand,
@@ -130,5 +131,49 @@ public class ProductController {
         Map<String, Object> response = new HashMap<>();
         response.put("updatedProduct", modelMapper.map(product, ProductDTO.class));
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(value = "/get-by-id")
+    public ResponseEntity<?> getById( @RequestParam("id") String id)
+                                        {
+        Product product = productService.findById(id);
+        Map<String, Object> response = new HashMap<>();
+        response.put("product", modelMapper.map(product, ProductDTO.class));
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping(value = "/get-by-branch")
+    public ResponseEntity<?> getByBranch(@RequestParam("branch") String branch){
+        List<ProductDTO> productDTOList = null;
+        if(!branch.equals("All")) {
+            productDTOList = productService.listAll().stream()
+                    .map(product -> {
+                        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+                        QuantityProduct quantityProduct = quantityProductService.findByBranchAndProduct(branchService.findByName(branch), product);
+                        int quantity = (quantityProduct != null) ? quantityProduct.getQuantity() : 0;
+                        productDTO.setQuantityOfBranch(quantity);
+                        return productDTO;
+                    })
+                    .collect(Collectors.toList());
+        }
+        else {
+            productDTOList = productService.listAll().stream()
+                    .map(product -> {
+                        ProductDTO productDTO = modelMapper.map(product, ProductDTO.class);
+                        productDTO.setQuantityOfBranch(sumQuantity(product));
+                        return productDTO;
+                    })
+                    .collect(Collectors.toList());
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("productList", productDTOList);
+        return ResponseEntity.ok(response);
+    }
+
+    private int sumQuantity(Product product){
+        return quantityProductService.findAllByProduct(product)
+                .stream()
+                .mapToInt(QuantityProduct::getQuantity)
+                .sum();
     }
 }

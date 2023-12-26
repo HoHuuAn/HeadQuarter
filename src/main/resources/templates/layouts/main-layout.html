@@ -430,47 +430,66 @@
             });
         });
     });
-
+    //==================== product ====================
     $(document).ready(function() {
-        $('#modal-update-product').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget);
-            var productId = button.data('id');
-            var productName = $('#nameOfProductUpdated').val()
-            var importPrice = $('#importPriceOfProductUpdated').val();
-            var retailPrice = $('#retailPriceOfProductUpdated').val();
+        function updateProduct(){
+            $('#modal-update-product').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var productId = button.data('id');
+                var productName;
+                var importPrice;
+                var retailPrice;
+                $.ajax({
+                    type: 'POST',
+                    url: '/product/get-by-id',
+                    data: {id: productId},
+                    success: function(response) {
+                        productName = response.product.name;
+                        importPrice = response.product.importPrice;
+                        retailPrice = response.product.retailPrice;
+                        $('#nameOfProductUpdated').val(response.product.name)
+                        $('#importPriceOfProductUpdated').val(response.product.importPrice);
+                        $('#retailPriceOfProductUpdated').val(response.product.retailPrice);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('An error occurred while updating the branch:', error);
+                    }
+                });
 
-            $(this).find('#nameOfProductUpdated').val(productName);
-            $(this).find('#importPriceOfProductUpdated').val(importPrice);
-            $(this).find('#retailPriceOfProductUpdated').val(retailPrice);
-            $(this).find('.btn-update-product').data('id', productId);
-        });
-
-        $('.btn-update-product').click(function() {
-            var productId = $(this).data('id');
-            var productName = $('#nameOfProductUpdated').val();
-            var importPrice = $('#importPriceOfProductUpdated').val();
-            var retailPrice = $('#retailPriceOfProductUpdated').val();
-
-            console.log(productId);
-            console.log(productName);
-            console.log(importPrice);
-            console.log(retailPrice);
-
-            $('#modal-update-product').modal('hide');
-            $.ajax({
-                type: 'POST',
-                url: '/product/edit/' + productId,
-                data: {name: productName, importPrice: importPrice, retailPrice: retailPrice},
-                success: function(response) {
-                    $('#' + productId + '-importPrice').text(response.updatedProduct.importPrice);
-                    $('#' + productId + '-retailPrice').text(response.updatedProduct.retailPrice);
-                    createToast("success", productName + " was updated successfully")
-                },
-                error: function(xhr, status, error) {
-                    console.error('An error occurred while updating the product:', error);
-                }
+                $(this).find('#nameOfProductUpdated').val(productName);
+                $(this).find('#importPriceOfProductUpdated').val(importPrice);
+                $(this).find('#retailPriceOfProductUpdated').val(retailPrice);
+                $(this).find('.btn-update-product').data('id', productId);
             });
-        });
+
+            $('.btn-update-product').click(function() {
+                var productId = $(this).data('id');
+                var productName = $('#nameOfProductUpdated').val();
+                var importPrice = $('#importPriceOfProductUpdated').val();
+                var retailPrice = $('#retailPriceOfProductUpdated').val();
+
+                console.log(productId);
+                console.log(productName);
+                console.log(importPrice);
+                console.log(retailPrice);
+
+                $('#modal-update-product').modal('hide');
+                $.ajax({
+                    type: 'POST',
+                    url: '/product/edit/' + productId,
+                    data: {name: productName, importPrice: importPrice, retailPrice: retailPrice},
+                    success: function(response) {
+                        $('#' + productId + '-importPrice').text(response.updatedProduct.importPrice);
+                        $('#' + productId + '-retailPrice').text(response.updatedProduct.retailPrice);
+                        createToast("success", productName + " was updated successfully")
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('An error occurred while updating the product:', error);
+                    }
+                });
+            });
+        }
+        updateProduct()
     });
 </script>
 </body>
