@@ -122,7 +122,7 @@ function showOrder(orderList) {
                                         <td>${order.nameOfCustomer}</td>
                                         <td>${order.totalAmount}</td>
                                         <td>${order.cash}</td>
-                                        <td>${order.cash - order.totalAmount}</td>
+                                        <td>${(order.cash!==0)?(order.cash - order.totalAmount):0}</td>
                                         <td>${formattedDate}</td>
                                         <td>${totalQuantity}</td>
                                         `;

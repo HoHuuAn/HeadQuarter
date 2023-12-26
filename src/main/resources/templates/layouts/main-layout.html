@@ -348,7 +348,7 @@
                 url: '/user/change-role',
                 data: { userId: userId, role: selectedRole },
                 success: function (data) {
-                    // console.log(data.user)
+                    createToast("success", "User with id = " +userId + " was set to "+ selectedRole)
                 },
                 error: function () {
                 }
@@ -382,7 +382,14 @@
                     newRow.append($("<td>").text(new_Branch.name));
                     newRow.append($("<td>").text(new_Branch.address));
                     newRow.append($("<td>").text(new_Branch.createdAt));
-                    newRow.append($("<td>").addClass("text-right"));
+                    var button = $('<button>').addClass('btn mt-2 mr-2')
+                        .attr('type', 'button')
+                        .attr('data-toggle', 'modal')
+                        .attr('data-target', '#modal-update-branch')
+                        .attr('data-id', new_Branch.id)
+                        .html('<i class="fa-regular fa-pen-to-square" style="color: #b0b300;"></i>');
+                    newRow.append($("<td>").append(button));
+
                     $("#table-branch").append(newRow);
 
                     createToast("success", new_Branch.name + " was added successfully")

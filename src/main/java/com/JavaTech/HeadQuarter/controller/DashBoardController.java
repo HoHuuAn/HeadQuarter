@@ -66,7 +66,7 @@ public class DashBoardController {
             orderDTOList = orderList.stream()
                     .map(orderProduct -> {
                         OrderProductDTO orderProductDTO = modelMapper.map(orderProduct, OrderProductDTO.class);
-                        orderProductDTO.setNameOfCustomer(orderProduct.getCustomer().getName());
+                        orderProductDTO.setNameOfCustomer((orderProduct.getCustomer() != null)?orderProduct.getCustomer().getName():"null");
                         return orderProductDTO;
                     })
                     .collect(Collectors.toList());
@@ -89,7 +89,7 @@ public class DashBoardController {
             orderDTOList = orderList.stream()
                     .map(orderProduct -> {
                         OrderProductDTO orderProductDTO = modelMapper.map(orderProduct, OrderProductDTO.class);
-                        orderProductDTO.setNameOfCustomer(orderProduct.getCustomer().getName());
+                        orderProductDTO.setNameOfCustomer((orderProduct.getCustomer() != null)?orderProduct.getCustomer().getName():"null");
                         return orderProductDTO;
                     })
                     .collect(Collectors.toList());
