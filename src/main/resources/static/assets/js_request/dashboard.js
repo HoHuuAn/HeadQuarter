@@ -40,10 +40,10 @@ $('#branch-select').on('change', function () {
 
 var currentRequest = null;
 function getData(start, end, branch) {
-    function poll() {
-        if (currentRequest) {
-            currentRequest.abort();
-        }
+    // function poll() {
+    //     if (currentRequest) {
+    //         currentRequest.abort();
+    //     }
         currentRequest = $.ajax({
             type: 'POST',
             url: '/',
@@ -58,55 +58,49 @@ function getData(start, end, branch) {
                 showProduct(data.productList);
 
                 currentRequest = null;
-                poll();
+                // poll();
             },
             error: function () {
                 currentRequest = null;
             }
         });
-    }
-    poll();
+    // }
+    // poll();
 }
 
-// var stompClient = null;
-// function connect() {
-//     var socket = new SockJS('/ws');
-//     stompClient = Stomp.over(socket);
-//     stompClient.connect({}, function (frame) {
-//         stompClient.subscribe('/topic/stats', function (response) {
-//             // const data = JSON.parse(response.body);
-//             // console.log(response)
-//             // Update the dashboard UI with the received updates
-//             $('#total-sales').html('$' + response.totalAmount);
-//             $('#product-sold').html(responsetotalProduct);
-//             $('#orders-sold').html(response.orderList.length);
-//             $('#profit').html('$' + response.profit);
-//             showOrder(response.orderList);
-//             showProduct(response.productList);
-//         });
-//     });
-// }
-// connect()
-// function disconnect() {
-//     if (stompClient !== null) {
-//         stompClient.disconnect();
-//     }
-// }
-//
-// // Establish a WebSocket connection
-// const socket = new WebSocket('ws://localhost:8081/socket-endpoint');
-// // Handle incoming messages
-// socket.onmessage = function (event) {
-//     const data = JSON.parse(event.data);
-//     // Update your UI with the received data
-//     // For example:
-//     $('#total-sales').html('$' + data.totalAmount);
-//     $('#product-sold').html(data.totalProduct);
-//     $('#orders-sold').html(data.orderList.length);
-//     $('#profit').html('$' + data.profit);
-//     showOrder(data.orderList);
-//     showProduct(data.productList);
-// };
+var stompClient = null;
+
+function connect() {
+    var socket = new SockJS('http://localhost:8080/ws');
+    stompClient = Stomp.over(socket);
+    var headers = {
+        'Origin': 'http://localhost:8080'
+    };
+
+    stompClient.connect(headers, function (frame) {
+        stompClient.subscribe('/topic/quantity-updates', function (response) {
+            var body = JSON.parse(response.body);
+            console.log(body.oldQuantity);
+            console.log(body.productId);
+            console.log(body.quantity);
+            console.log(body.branch);
+            if( $('#branch-select').val() === "All"){
+                old = $(`#${body.productId}`).val()
+                $(`#${body.productId}`).val( old - body.oldQuantity + body.quantity)
+            }
+            if( $('#branch-select').val() === body.branch){
+                $(`#${body.productId}`).val( body.quantity)
+            }
+        });
+    });
+
+}
+connect();
+function disconnect() {
+    if (stompClient !== null) {
+        stompClient.disconnect();
+    }
+}
 function showOrder(orderList) {
     var tableBody = document.getElementById('table-order-report');
     tableBody.innerHTML = ''
@@ -135,10 +129,10 @@ function showProduct(productList){
     tableBody.innerHTML = ''
     productList.forEach( (product) => {
         var newRow = document.createElement('tr');
-        // var readonly = '';
-        // if($('#branch-select').val() === 'All'){
-        //     readonly = 'readonly'
-        // }
+        var readonly = '';
+        if($('#branch-select').val() === 'All'){
+            readonly = 'readonly'
+        }
         newRow.innerHTML = `
                                         <td><div class="media">
                                             <img src="data:image/png;base64,${product.image}"
@@ -155,13 +149,15 @@ function showProduct(productList){
                                         <td>${product.importPrice}</td>
                                         <td>${product.retailPrice}</td>
                                         <td> 
-                                            <input readonly value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control d-flex align-items-center" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                                            <input ${readonly} value="${product.quantityOfBranch}" id="${product.id}"  type="text" class="quantityOfProduct form-control d-flex align-items-center" aria-label="Default" aria-describedby="inputGroup-sizing-default">
                                         </td>
                                         `;
         var quantityInput = newRow.querySelector('.quantityOfProduct');
         quantityInput.addEventListener('change', function() {
             const productId = product.id;
             const quantity = this.value;
+            console.log(productId)
+            console.log(quantity)
             $.ajax({
                 type: 'POST',
                 url: '/product/update-quantity',
@@ -243,6 +239,9 @@ function showProductList(productList){
         quantityInput.addEventListener('change', function() {
             const productId = product.id;
             const quantity = this.value;
+            console.log(productId)
+            console.log(quantity)
+            console.log($('#branch-select-product').val())
             $.ajax({
                 type: 'POST',
                 url: '/product/update-quantity',

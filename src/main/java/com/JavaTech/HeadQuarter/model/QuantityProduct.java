@@ -1,5 +1,6 @@
 package com.JavaTech.HeadQuarter.model;
 
+//import com.JavaTech.HeadQuarter.component.QuantityProductListener;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+//@EntityListeners(QuantityProductListener.class)
 public class QuantityProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

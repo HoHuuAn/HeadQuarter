@@ -315,6 +315,7 @@
 <!-- app JavaScript -->
 <script th:src="@{/assets/js/app.js}"></script>
 
+<!-- dashboard -->
 <script th:src="@{/assets/js_request/dashboard.js}"></script>
 
 <!--add user-->
@@ -475,10 +476,10 @@
                 var importPrice = $('#importPriceOfProductUpdated').val();
                 var retailPrice = $('#retailPriceOfProductUpdated').val();
 
-                console.log(productId);
-                console.log(productName);
-                console.log(importPrice);
-                console.log(retailPrice);
+                // console.log(productId);
+                // console.log(productName);
+                // console.log(importPrice);
+                // console.log(retailPrice);
 
                 $('#modal-update-product').modal('hide');
                 $.ajax({
