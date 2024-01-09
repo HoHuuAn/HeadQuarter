@@ -80,15 +80,16 @@ function connect() {
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/topic/quantity-updates', function (response) {
             var body = JSON.parse(response.body);
-            console.log(body.oldQuantity);
-            console.log(body.productId);
-            console.log(body.quantity);
-            console.log(body.branch);
-            if( $('#branch-select').val() === "All"){
+            // console.log(body.oldQuantity);
+            // console.log(body.productId);
+            // console.log(body.quantity);
+            // console.log(body.branch);
+            var currentBranch = $('#branch-select').val()
+            if( currentBranch === "All"){
                 old = $(`#${body.productId}`).val()
                 $(`#${body.productId}`).val( old - body.oldQuantity + body.quantity)
             }
-            if( $('#branch-select').val() === body.branch){
+            if( currentBranch === body.branch){
                 $(`#${body.productId}`).val( body.quantity)
             }
         });
